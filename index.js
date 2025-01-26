@@ -48,6 +48,29 @@ const fibonacciFMI = () => deepseekBeta.completions.create({
     max_tokens: 128
 });
 
+/**
+ * Lists all available models from the DeepSeek API
+ * This function retrieves and displays information about each model accessible through the API.
+ * 
+ * @async
+ * @function listModels
+ * @returns {Promise<void>} Does not return a value, prints models to console
+ * @example
+ * await listModels();
+ * // Expected output:
+ * // { id: 'deepseek-chat', ... }
+ * // { id: 'deepseek-coder', ... }
+ * 
+ * @throws {Error} If the API request fails
+ */
+
+const listModels = async () => {
+    const models = await deepseek.models.list()
+    for await (const model of models) {
+        console.log(model);
+    }
+}
+
 const main = async () => {
     const textOutput = await explainBibleVerse("Proverbs 17:3");
     console.log(textOutput.choices[0].message);
