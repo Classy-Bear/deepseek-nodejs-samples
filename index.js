@@ -1,8 +1,9 @@
 import OpenAI from "openai";
+import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 
-const apiKey = process.env.API_KEY_FILE;
+const apiKey = fs.readFileSync(process.env.API_KEY_FILE, 'utf8').trim();
 if (!apiKey) {
     throw new Error("API key is not defined. Please check your environment variables or Docker secrets configuration.");
 }
