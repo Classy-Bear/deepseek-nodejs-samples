@@ -1,10 +1,11 @@
-# Bible Verse Explainer with DeepSeek AI
+# DeepSeek AI Integration Examples
 
-A Node.js application that uses DeepSeek's AI to provide easy-to-understand explanations of Bible verses. This project is containerized using Docker and implements secure secret management.
+A Node.js application that demonstrates different uses of DeepSeek's AI capabilities, including Bible verse explanation and Fill-In-the-Middle (FIM) code generation. This project is containerized using Docker and implements secure secret management.
 
 ## 🚀 Features
 
-- Bible verse explanation using DeepSeek AI
+- Bible verse explanations using DeepSeek AI
+- Fibonacci sequence implementation using Fill-In-the-Middle (FIM) API
 - Secure API key management using Docker secrets
 - Containerized application for consistent deployment
 - Error handling for missing configurations
@@ -61,12 +62,27 @@ The application can be configured using either:
 
 ## 🚀 Usage
 
-The application currently explains Proverbs 17:3 by default. To modify the verse being explained, update the `explainBibleVerse()` call in `index.js`.
+The application provides two main functionalities:
 
+### 1. Bible Verse Explanation
 ```javascript
-// Example usage
-const textOutput = await explainBibleVerse("John 3:16");
+const textOutput = await explainBibleVerse("Proverbs 17:3");
+console.log(textOutput.choices[0].message);
 ```
+
+### 2. Fibonacci Implementation Generation
+```javascript
+const response = await fibonacciFMI();
+console.log(response.choices[0].text);
+```
+
+The FIM (Fill-In-the-Middle) API will generate the middle part of a Fibonacci sequence implementation in Python, given the function definition and return statement.
+
+## 🔌 API Endpoints
+
+The application uses two DeepSeek API endpoints:
+- Main API: `https://api.deepseek.com`
+- Beta API (for FIM): `https://api.deepseek.com/beta`
 
 ## 🤝 Contributing
 
@@ -84,4 +100,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Never commit API keys or sensitive information to version control
 - Always use secure secret management in production environments
-- Keep dependencies updated for security patches 
+- Keep dependencies updated for security patches
+- The FIM feature requires access to DeepSeek's beta API endpoint 
