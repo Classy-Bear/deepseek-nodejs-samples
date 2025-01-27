@@ -71,6 +71,49 @@ const listModels = async () => {
     }
 }
 
+/**
+ * Performs multi-round reasoning using DeepSeek's Reasoner model.
+ * 
+ * This function sends an initial question to the DeepSeek Reasoner model,
+ * retrieves the response, and then uses that response to ask a follow-up question.
+ * 
+ * @async
+ * @function performReasoningRounds
+ * @returns {Promise<Object>} An object containing response1, response2, and reasoningContent
+ * @example
+ * const { response1, response2, reasoningContent } = await performReasoningRounds();
+ * console.log(reasoningContent);
+ * console.log(response1.choices[0].message.content);
+ * console.log(response2.choices[0].message.content);
+ * 
+ * @throws {Error} If any of the API requests fail
+ */
+const performReasoningRounds = async () => {
+    try {
+        // Round 1
+        let messages = [{ role: "user", content: "9.11 and 9.8, which is greater?" }];
+        const response1 = await deepseekBeta.chat.completions.create({
+            model: "deepseek-reasoner",
+            messages: messages
+        });
+        
+        const reasoningContent = response1.choices[0].message.reasoning_content;
+        const content = response1.choices[0].message.content;
+
+        // Round 2
+        messages.push({ role: "assistant", content: content });
+        messages.push({ role: "user", content: "How many Rs are there in the word 'strawberry'?" });
+        const response2 = await deepseekBeta.chat.completions.create({
+            model: "deepseek-reasoner",
+            messages: messages
+        });
+
+        return { response1, response2, reasoningContent };
+    } catch (error) {
+        throw new Error(`Failed to perform reasoning rounds: ${error.message}`);
+    }
+};
+
 const main = async () => {
     const textOutput = await explainBibleVerse("Proverbs 17:3");
     console.log(textOutput.choices[0].message);
