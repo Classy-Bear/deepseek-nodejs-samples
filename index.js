@@ -115,7 +115,25 @@ const performReasoningRounds = async () => {
 };
 
 const main = async () => {
-    const textOutput = await explainBibleVerse("Proverbs 17:3");
-    console.log(textOutput.choices[0].message);
+    // Uncomment to explain a Bible verse
+    // const textOutput = await explainBibleVerse("Proverbs 17:3");
+    // console.log(textOutput.choices[0].message);
+
+    // Uncomment to generate Fibonacci sequence
+    // const textOutput = await fibonacciFMI();
+    // console.log(textOutput);
+
+    // Uncomment to list models
+    // await listModels();
+
+    // Uncomment to perform reasoning rounds
+    // try {
+    //     const { response1, response2, reasoningContent } = await performReasoningRounds();
+    //     console.log("Reasoning Content:", reasoningContent);
+    //     console.log("Response 1 Content:", response1.choices[0].message.content);
+    //     console.log("Response 2 Content:", response2.choices[0].message.content);
+    // } catch (error) {
+    //     console.error(error);
+    // }
 }
 main();
