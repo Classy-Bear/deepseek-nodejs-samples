@@ -63,7 +63,6 @@ const fibonacciFMI = () => deepseekBeta.completions.create({
  * 
  * @throws {Error} If the API request fails
  */
-
 const listModels = async () => {
     const models = await deepseek.models.list()
     for await (const model of models) {
@@ -92,7 +91,7 @@ const performReasoningRounds = async () => {
     try {
         // Round 1
         let messages = [{ role: "user", content: "9.11 and 9.8, which is greater?" }];
-        const response1 = await deepseekBeta.chat.completions.create({
+        const response1 = await deepseek.chat.completions.create({
             model: "deepseek-reasoner",
             messages: messages
         });
@@ -103,7 +102,7 @@ const performReasoningRounds = async () => {
         // Round 2
         messages.push({ role: "assistant", content: content });
         messages.push({ role: "user", content: "How many Rs are there in the word 'strawberry'?" });
-        const response2 = await deepseekBeta.chat.completions.create({
+        const response2 = await deepseek.chat.completions.create({
             model: "deepseek-reasoner",
             messages: messages
         });
