@@ -156,6 +156,58 @@ const performMultiRoundConversation = async () => {
     }
 };
 
+/**
+ * Parses exam text into a structured JSON format using DeepSeek's chat model.
+ * This function takes exam text containing a question and answer, and returns them in JSON format.
+ * 
+ * @async
+ * @function parseExamToJSON
+ * @param {string} examText - The exam text containing question and answer
+ * @returns {Promise<Object>} A promise that resolves to the parsed JSON object
+ * @example
+ * const result = await parseExamToJSON("Which is the longest river in the world? The Nile River.");
+ * console.log(result);
+ * // Expected output:
+ * // {
+ * //     "question": "Which is the longest river in the world?",
+ * //     "answer": "The Nile River"
+ * // }
+ * 
+ * @throws {Error} If the API request fails or JSON parsing fails
+ */
+const parseExamToJSON = async (examText) => {
+    try {
+        const systemPrompt = `
+The user will provide some exam text. Please parse the "question" and "answer" and output them in JSON format. 
+
+EXAMPLE INPUT: 
+Which is the highest mountain in the world? Mount Everest.
+
+EXAMPLE JSON OUTPUT:
+{
+    "question": "Which is the highest mountain in the world?",
+    "answer": "Mount Everest"
+}`;
+
+        const messages = [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: examText }
+        ];
+
+        const response = await deepseek.chat.completions.create({
+            model: "deepseek-chat",
+            messages: messages,
+            response_format: {
+                type: 'json_object'
+            }
+        });
+
+        return JSON.parse(response.choices[0].message.content);
+    } catch (error) {
+        throw new Error(`Failed to parse exam text to JSON: ${error.message}`);
+    }
+};
+
 const main = async () => {
     // Uncomment to explain a Bible verse
     // const textOutput = await explainBibleVerse("Proverbs 17:3");
@@ -183,6 +235,15 @@ const main = async () => {
     //     const { response1, response2 } = await performMultiRoundConversation();
     //     console.log("First Response:", response1.choices[0].message.content);
     //     console.log("Second Response:", response2.choices[0].message.content);
+    // } catch (error) {
+    //     console.error(error);
+    // }
+
+    // Uncomment to parse exam text to JSON
+    // try {
+    //     const examText = "Which is the longest river in the world? The Nile River.";
+    //     const jsonResult = await parseExamToJSON(examText);
+    //     console.log("Parsed JSON Result:", jsonResult);
     // } catch (error) {
     //     console.error(error);
     // }
