@@ -113,6 +113,49 @@ const performReasoningRounds = async () => {
     }
 };
 
+/**
+ * Performs a multi-round conversation about mountains using DeepSeek's chat model.
+ * This function demonstrates how to maintain conversation context across multiple rounds.
+ * 
+ * @async
+ * @function performMultiRoundConversation
+ * @returns {Promise<Object>} An object containing both rounds of responses
+ * @example
+ * const { response1, response2 } = await performMountainConversation();
+ * console.log(response1.choices[0].message.content);
+ * console.log(response2.choices[0].message.content);
+ * 
+ * @throws {Error} If any of the API requests fail
+ */
+const performMultiRoundConversation = async () => {
+    try {
+        // Round 1
+        let messages = [{ role: "user", content: "What's the highest mountain in the world?" }];
+        const response1 = await deepseek.chat.completions.create({
+            model: "deepseek-chat",
+            messages: messages
+        });
+        
+        // Add assistant's response to messages for context
+        messages.push(response1.choices[0].message);
+        console.log("Messages Round 1:", messages);
+
+        // Round 2
+        messages.push({ role: "user", content: "What is the second?" });
+        const response2 = await deepseek.chat.completions.create({
+            model: "deepseek-chat",
+            messages: messages
+        });
+
+        messages.push(response2.choices[0].message);
+        console.log("Messages Round 2:", messages);
+
+        return { response1, response2 };
+    } catch (error) {
+        throw new Error(`Failed to perform mountain conversation: ${error.message}`);
+    }
+};
+
 const main = async () => {
     // Uncomment to explain a Bible verse
     // const textOutput = await explainBibleVerse("Proverbs 17:3");
@@ -134,5 +177,14 @@ const main = async () => {
     // } catch (error) {
     //     console.error(error);
     // }
+
+    // Uncomment to perform mountain conversation
+    try {
+        const { response1, response2 } = await performMultiRoundConversation();
+        console.log("First Response:", response1.choices[0].message.content);
+        console.log("Second Response:", response2.choices[0].message.content);
+    } catch (error) {
+        console.error(error);
+    }
 }
 main();
