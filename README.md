@@ -1,12 +1,13 @@
 # DeepSeek AI Integration Examples
 
-A Node.js application that demonstrates different uses of DeepSeek's AI capabilities, including Bible verse explanation, Fill-In-the-Middle (FIM) code generation, multi-round reasoning, and model exploration. This project is containerized using Docker and implements secure secret management.
+A Node.js application that demonstrates different uses of DeepSeek's AI capabilities, including Bible verse explanation, Fill-In-the-Middle (FIM) code generation, multi-round reasoning, multi-round conversations, and model exploration. This project is containerized using Docker and implements secure secret management.
 
 ## 🚀 Features
 
 - Bible verse explanations using DeepSeek AI
 - Fibonacci sequence implementation using Fill-In-the-Middle (FIM) API
 - Multi-round reasoning using DeepSeek's Reasoner model
+- Multi-round conversations with context maintenance
 - Model exploration and listing capabilities
 - Secure API key management using Docker secrets
 - Containerized application for consistent deployment
@@ -64,7 +65,7 @@ The application can be configured using either:
 
 ## 🚀 Usage
 
-The application provides four main functionalities:
+The application provides five main functionalities:
 
 ### 1. Bible Verse Explanation
 ```javascript
@@ -90,7 +91,16 @@ console.log("Response 2 Content:", response2.choices[0].message.content);
 
 This feature demonstrates DeepSeek's Reasoner model capabilities with multi-turn conversations and explicit reasoning steps.
 
-### 4. Model Exploration
+### 4. Multi-Round Conversations
+```javascript
+const { response1, response2 } = await performMultiRoundConversation();
+console.log("First Response:", response1.choices[0].message.content);
+console.log("Second Response:", response2.choices[0].message.content);
+```
+
+This feature showcases the ability to maintain conversation context across multiple interactions with the AI, allowing for more natural and contextual dialogue flows.
+
+### 5. Model Exploration
 ```javascript
 await listModels();
 // Displays available models and their capabilities

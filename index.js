@@ -179,12 +179,12 @@ const main = async () => {
     // }
 
     // Uncomment to perform mountain conversation
-    try {
-        const { response1, response2 } = await performMultiRoundConversation();
-        console.log("First Response:", response1.choices[0].message.content);
-        console.log("Second Response:", response2.choices[0].message.content);
-    } catch (error) {
-        console.error(error);
-    }
+    // try {
+    //     const { response1, response2 } = await performMultiRoundConversation();
+    //     console.log("First Response:", response1.choices[0].message.content);
+    //     console.log("Second Response:", response2.choices[0].message.content);
+    // } catch (error) {
+    //     console.error(error);
+    // }
 }
 main();
